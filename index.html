@@ -2,123 +2,1376 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KAIROX OS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>KAIROX OS Player Edition</title>
+
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;overflow:hidden;background:#080910;color:#fff}
-body{background:radial-gradient(circle at 20% 20%,#25204a 0,#0d0d18 35%,#05060a 100%)}
-#boot{position:fixed;inset:0;background:#05060a;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:100;color:#fff}
-.logo{font-size:clamp(42px,9vw,100px);font-weight:900;letter-spacing:8px;text-shadow:0 0 25px #8b5cf6,0 0 55px #38bdf8}
-.bootbar{width:min(420px,70vw);height:5px;background:#222;border-radius:9px;margin-top:28px;overflow:hidden}
-.bootbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#22d3ee);animation:load 2.2s forwards}
-@keyframes load{to{width:100%}}
-#desktop{height:100%;position:relative;overflow:hidden;background:
-radial-gradient(circle at 15% 20%,rgba(168,85,247,.34),transparent 25%),
-radial-gradient(circle at 82% 18%,rgba(34,211,238,.28),transparent 24%),
-radial-gradient(circle at 55% 88%,rgba(236,72,153,.20),transparent 28%),
-linear-gradient(135deg,#03040a 0%,#090719 42%,#03131b 100%)}
-.cursor-neon,.cursor-neon *{cursor:crosshair!important}
-.cursor-cross,.cursor-cross *{cursor:crosshair!important}
-.cursor-pointer,.cursor-pointer *{cursor:pointer!important}
-.cursor-neon{cursor:crosshair!important}
-#desktop:before{content:"";position:absolute;inset:-30%;background:
-conic-gradient(from 20deg,transparent 0 18%,rgba(124,58,237,.13) 24%,transparent 31% 48%,rgba(34,211,238,.10) 55%,transparent 64% 100%);
-filter:blur(28px);animation:aurora 12s ease-in-out infinite alternate;pointer-events:none}
-#desktop:after{content:"";position:absolute;inset:0;background-image:
-radial-gradient(circle,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
-radial-gradient(circle,rgba(34,211,238,.45) 0 1px,transparent 1.5px);
-background-size:97px 113px,157px 149px;background-position:20px 10px,70px 45px;opacity:.22;pointer-events:none}
-@keyframes aurora{from{transform:rotate(-8deg) scale(1)}to{transform:rotate(8deg) scale(1.08)}}
-#icons,#taskbar,#startmenu,.window{z-index:10}
-.wallpaper{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:35px 35px}
-#icons{position:absolute;top:20px;left:18px;display:grid;gap:18px}
-.icon{width:76px;text-align:center;cursor:pointer;padding:7px;border-radius:12px}.icon:hover{background:#ffffff14}.icon span{display:block;font-size:30px;margin-bottom:5px}.icon small{font-size:12px}
-#taskbar{position:absolute;bottom:0;left:0;right:0;height:58px;background:rgba(10,10,18,.8);backdrop-filter:blur(16px);border-top:1px solid #ffffff18;display:flex;align-items:center;padding:7px 12px;gap:8px;z-index:20}
-.task{border:0;background:#ffffff0d;color:white;border-radius:10px;padding:9px 12px;cursor:pointer}.task:hover{background:#ffffff18}
-#startBtn{font-weight:bold;background:linear-gradient(135deg,#7c3aed,#0891b2)}
-#clock{margin-left:auto;font-size:13px;color:#cbd5e1}
-.window{position:absolute;left:15%;top:12%;width:min(700px,72vw);height:min(500px,65vh);background:rgba(12,13,23,.94);border:1px solid #ffffff22;border-radius:14px;box-shadow:0 25px 80px #000b;backdrop-filter:blur(20px);overflow:hidden;z-index:10;display:none}
-.titlebar{height:42px;display:flex;align-items:center;padding:0 12px;background:#ffffff0b;border-bottom:1px solid #ffffff14;cursor:move}
-.titlebar b{flex:1}.close,.min{border:0;color:#fff;background:transparent;font-size:18px;cursor:pointer;width:30px}
-.content{height:calc(100% - 42px);padding:18px;overflow:auto}
-.card{background:#ffffff08;border:1px solid #ffffff12;border-radius:12px;padding:14px;margin-bottom:12px}
-button,input,select{font:inherit}input,select{background:#090a11;color:#fff;border:1px solid #ffffff22;border-radius:8px;padding:9px}
-.startmenu{position:absolute;bottom:66px;left:12px;width:320px;background:rgba(12,13,23,.96);border:1px solid #ffffff1c;border-radius:16px;padding:16px;box-shadow:0 20px 70px #000c;display:none;z-index:30}
-.startmenu h2{margin:0 0 12px}.apps{display:grid;grid-template-columns:1fr 1fr;gap:8px}.apps button{padding:13px;border:1px solid #ffffff12;background:#ffffff09;color:white;border-radius:10px;text-align:left;cursor:pointer}.apps button:hover{background:#ffffff18}
-.file{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px}.file:hover{background:#ffffff09}
-.game{height:270px;border:1px solid #ffffff15;border-radius:12px;background:#05060a;position:relative;overflow:hidden}.player{position:absolute;width:24px;height:24px;background:#22d3ee;box-shadow:0 0 18px #22d3ee;border-radius:5px;left:30px;bottom:30px}.block{position:absolute;width:28px;height:28px;background:#a855f7;bottom:30px;right:40px;animation:move 2s linear infinite}@keyframes move{from{right:40px}to{right:90%}}
-.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.theme{padding:20px;border-radius:12px;background:#ffffff08;border:1px solid #ffffff12;cursor:pointer}
-#toast{position:fixed;right:18px;bottom:75px;background:#121421;padding:12px 16px;border:1px solid #ffffff18;border-radius:10px;display:none;z-index:50}
+*{box-sizing:border-box}
+html,body{
+ margin:0;width:100%;height:100%;
+ font-family:Arial,sans-serif;
+ overflow:hidden;
+ background:#05060a;color:white;
+}
+
+button,input{font:inherit}
+
+#boot{
+ position:fixed;inset:0;
+ background:#03040a;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ z-index:9999;
+}
+
+.logo{
+ font-size:clamp(45px,12vw,100px);
+ font-weight:900;
+ letter-spacing:8px;
+ text-shadow:0 0 20px #8b5cf6,0 0 50px #22d3ee;
+}
+
+.boottext{
+ color:#94a3b8;
+ margin-top:12px;
+}
+
+.bootbar{
+ width:min(430px,75vw);
+ height:6px;
+ background:#20212a;
+ border-radius:20px;
+ margin-top:25px;
+ overflow:hidden;
+}
+
+.bootbar i{
+ display:block;
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,#8b5cf6,#22d3ee,#ec4899);
+ animation:load 2.5s forwards;
+}
+
+@keyframes load{
+ to{width:100%}
+}
+
+#desktop{
+ position:relative;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ background:
+ radial-gradient(circle at 15% 20%,rgba(139,92,246,.4),transparent 28%),
+ radial-gradient(circle at 85% 15%,rgba(34,211,238,.3),transparent 25%),
+ radial-gradient(circle at 60% 90%,rgba(236,72,153,.25),transparent 30%),
+ linear-gradient(135deg,#02030a,#0b0718,#02141c);
+}
+
+#desktop:before{
+ content:"";
+ position:absolute;
+ inset:-30%;
+ background:
+ conic-gradient(
+ transparent,
+ rgba(124,58,237,.15),
+ transparent 30%,
+ rgba(34,211,238,.12),
+ transparent 65%
+ );
+ filter:blur(35px);
+ animation:aurora 14s infinite alternate;
+ pointer-events:none;
+}
+
+@keyframes aurora{
+ from{transform:rotate(-8deg) scale(1)}
+ to{transform:rotate(8deg) scale(1.1)}
+}
+
+.stars{
+ position:absolute;
+ inset:0;
+ background-image:
+ radial-gradient(circle,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
+ radial-gradient(circle,rgba(34,211,238,.5) 0 1px,transparent 1.5px);
+ background-size:97px 113px,157px 149px;
+ opacity:.3;
+ animation:stars 20s linear infinite;
+ pointer-events:none;
+}
+
+@keyframes stars{
+ from{background-position:0 0,50px 40px}
+ to{background-position:100px 100px,0 0}
+}
+
+#desktopGrid{
+ position:absolute;
+ inset:0;
+ background-image:
+ linear-gradient(#ffffff05 1px,transparent 1px),
+ linear-gradient(90deg,#ffffff05 1px,transparent 1px);
+ background-size:40px 40px;
+ pointer-events:none;
+}
+
+#icons{
+ position:absolute;
+ top:20px;
+ left:18px;
+ display:grid;
+ gap:15px;
+ z-index:5;
+}
+
+.icon{
+ width:82px;
+ padding:9px;
+ border-radius:14px;
+ text-align:center;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.icon:hover{
+ background:#ffffff12;
+ transform:translateY(-2px);
+}
+
+.icon span{
+ display:block;
+ font-size:32px;
+ margin-bottom:5px;
+}
+
+.icon small{
+ font-size:12px;
+}
+
+#taskbar{
+ position:absolute;
+ left:0;
+ right:0;
+ bottom:0;
+ height:62px;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ padding:7px 12px;
+ background:#090a12cc;
+ backdrop-filter:blur(20px);
+ border-top:1px solid #ffffff18;
+ z-index:100;
+}
+
+.task{
+ border:0;
+ background:#ffffff0d;
+ color:white;
+ padding:10px 13px;
+ border-radius:11px;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.task:hover{
+ background:#ffffff1b;
+ transform:translateY(-1px);
+}
+
+#startBtn{
+ font-weight:bold;
+ background:linear-gradient(135deg,#7c3aed,#0891b2);
+}
+
+#clock{
+ margin-left:auto;
+ color:#cbd5e1;
+ font-size:13px;
+ text-align:right;
+}
+
+#startmenu{
+ position:absolute;
+ left:12px;
+ bottom:72px;
+ width:min(390px,calc(100vw - 24px));
+ background:#0c0d17f5;
+ border:1px solid #ffffff20;
+ border-radius:18px;
+ padding:18px;
+ box-shadow:0 25px 80px #000d;
+ backdrop-filter:blur(25px);
+ display:none;
+ z-index:200;
+}
+
+.startTitle{
+ font-size:24px;
+ font-weight:bold;
+ margin-bottom:4px;
+}
+
+.startSub{
+ color:#94a3b8;
+ font-size:13px;
+ margin-bottom:15px;
+}
+
+.appGrid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+}
+
+.appButton{
+ border:1px solid #ffffff12;
+ background:#ffffff09;
+ color:white;
+ padding:15px;
+ border-radius:12px;
+ cursor:pointer;
+ text-align:left;
+}
+
+.appButton:hover{
+ background:#ffffff18;
+}
+
+.window{
+ position:absolute;
+ left:12%;
+ top:10%;
+ width:min(760px,82vw);
+ height:min(540px,70vh);
+ background:#0b0d17f5;
+ border:1px solid #ffffff22;
+ border-radius:16px;
+ box-shadow:0 30px 100px #000d;
+ backdrop-filter:blur(25px);
+ overflow:hidden;
+ display:none;
+ z-index:20;
+ resize:both;
+ min-width:280px;
+ min-height:220px;
+}
+
+.titlebar{
+ height:44px;
+ display:flex;
+ align-items:center;
+ padding:0 10px 0 15px;
+ background:#ffffff0b;
+ border-bottom:1px solid #ffffff15;
+ cursor:grab;
+ user-select:none;
+}
+
+.titlebar b{
+ flex:1;
+}
+
+.winBtn{
+ width:32px;
+ height:30px;
+ border:0;
+ background:transparent;
+ color:white;
+ font-size:18px;
+ cursor:pointer;
+ border-radius:7px;
+}
+
+.winBtn:hover{
+ background:#ffffff18;
+}
+
+.content{
+ height:calc(100% - 44px);
+ padding:18px;
+ overflow:auto;
+}
+
+.card{
+ background:#ffffff08;
+ border:1px solid #ffffff12;
+ border-radius:13px;
+ padding:15px;
+ margin-bottom:12px;
+}
+
+.search{
+ width:100%;
+ background:#070811;
+ border:1px solid #ffffff1c;
+ color:white;
+ border-radius:10px;
+ padding:12px;
+ outline:none;
+ margin-bottom:12px;
+}
+
+.gameGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:12px;
+}
+
+.gameCard{
+ background:#ffffff08;
+ border:1px solid #ffffff12;
+ border-radius:14px;
+ padding:14px;
+ transition:.2s;
+}
+
+.gameCard:hover{
+ transform:translateY(-3px);
+ background:#ffffff10;
+}
+
+.gameIcon{
+ font-size:42px;
+}
+
+.playBtn{
+ border:0;
+ color:white;
+ background:linear-gradient(135deg,#7c3aed,#0891b2);
+ padding:9px 13px;
+ border-radius:9px;
+ cursor:pointer;
+}
+
+.favorite{
+ float:right;
+ border:0;
+ background:none;
+ color:#64748b;
+ font-size:20px;
+ cursor:pointer;
+}
+
+.favorite.active{
+ color:#facc15;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.stat{
+ background:#ffffff08;
+ border:1px solid #ffffff12;
+ border-radius:12px;
+ padding:15px;
+ text-align:center;
+}
+
+.stat b{
+ display:block;
+ font-size:24px;
+}
+
+.themeGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+ gap:10px;
+}
+
+.theme{
+ padding:20px;
+ border-radius:12px;
+ background:#ffffff08;
+ border:1px solid #ffffff12;
+ cursor:pointer;
+ text-align:center;
+}
+
+.theme:hover{
+ background:#ffffff16;
+}
+
+.toggle{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:13px;
+ background:#ffffff08;
+ border-radius:10px;
+ margin-bottom:8px;
+}
+
+.toggle button{
+ border:0;
+ border-radius:20px;
+ padding:7px 13px;
+ color:white;
+ background:#475569;
+ cursor:pointer;
+}
+
+.toggle button.on{
+ background:#7c3aed;
+}
+
+#toast{
+ position:fixed;
+ right:18px;
+ bottom:78px;
+ background:#111421;
+ border:1px solid #ffffff1c;
+ padding:12px 17px;
+ border-radius:11px;
+ display:none;
+ z-index:1000;
+}
+
+#gameArea{
+ position:relative;
+ height:300px;
+ border-radius:15px;
+ background:#03040a;
+ border:1px solid #ffffff18;
+ overflow:hidden;
+}
+
+.player{
+ position:absolute;
+ width:26px;
+ height:26px;
+ border-radius:7px;
+ background:#22d3ee;
+ box-shadow:0 0 25px #22d3ee;
+}
+
+.enemy{
+ position:absolute;
+ width:30px;
+ height:30px;
+ background:#a855f7;
+ border-radius:6px;
+ box-shadow:0 0 20px #a855f7;
+}
+
+#score{
+ font-size:20px;
+ margin-bottom:10px;
+}
+
+@media(max-width:600px){
+ #icons{
+  grid-template-columns:repeat(2,82px);
+ }
+ .window{
+  left:3%;
+  top:5%;
+  width:94vw;
+  height:78vh;
+ }
+ .stats{
+  grid-template-columns:1fr;
+ }
+ #clock{
+  font-size:11px;
+ }
+}
 </style>
 </head>
+
 <body>
-<div id="boot"><div class="logo">KAIROX OS</div><div>Initializing system...</div><div class="bootbar"><i></i></div></div>
+
+<div id="boot">
+ <div class="logo">KAIROX</div>
+ <div class="boottext">PLAYER EDITION</div>
+ <div class="bootbar"><i></i></div>
+</div>
 
 <div id="desktop">
-<div class="wallpaper"></div>
+
+<div class="stars"></div>
+<div id="desktopGrid"></div>
+
 <div id="icons">
-  <div class="icon" onclick="openWin('files')"><span>📁</span><small>Files</small></div>
-  <div class="icon" onclick="openWin('browser')"><span>🌐</span><small>Browser</small></div>
-  <div class="icon" onclick="openWin('games')"><span>🎮</span><small>Games</small></div>
-  <div class="icon" onclick="openWin('settings')"><span>⚙️</span><small>Settings</small></div>
+ <div class="icon" onclick="openWin('games')">
+  <span>🎮</span><small>Games</small>
+ </div>
+
+ <div class="icon" onclick="openWin('browser')">
+  <span>🌐</span><small>Browser</small>
+ </div>
+
+ <div class="icon" onclick="openWin('settings')">
+  <span>⚙️</span><small>Settings</small>
+ </div>
+
+ <div class="icon" onclick="openWin('about')">
+  <span>💠</span><small>Kairox</small>
+ </div>
 </div>
 
-<div id="startmenu" class="startmenu">
-<h2>◈ KAIROX</h2><div style="color:#94a3b8;font-size:13px;margin-bottom:14px">Welcome to your desktop</div>
-<div class="apps">
-<button onclick="openWin('files')">📁 File Manager</button><button onclick="openWin('browser')">🌐 Browser</button>
-<button onclick="openWin('games')">🎮 Games</button><button onclick="openWin('settings')">⚙️ Settings</button>
-</div></div>
+<div id="startmenu">
+ <div class="startTitle">◈ KAIROX OS</div>
+ <div class="startSub">Player Edition</div>
 
-<div id="files" class="window"><div class="titlebar"><b>📁 File Manager</b><button class="min" onclick="hideWin('files')">−</button><button class="close" onclick="hideWin('files')">×</button></div><div class="content">
-<div class="card">📂 <b>Documents</b><br><small>Personal files</small></div><div class="card">🖼️ <b>Pictures</b><br><small>Images and wallpapers</small></div><div class="card">🎵 <b>Music</b><br><small>Audio files</small></div><div class="card">📦 <b>Downloads</b><br><small>Downloaded files</small></div>
-</div></div>
-
-<div id="browser" class="window"><div class="titlebar"><b>🌐 KAIROX Browser</b><button class="min" onclick="hideWin('browser')">−</button><button class="close" onclick="hideWin('browser')">×</button></div><div class="content">
-<div style="display:flex;gap:8px"><input id="url" style="flex:1" placeholder="Enter a permitted website address"><button class="task" onclick="browse()">Go</button></div>
-<div class="card" style="margin-top:16px"><h3>Browser</h3><p style="color:#94a3b8">This demo browser opens permitted websites in a new tab. It does not bypass school or network restrictions.</p></div>
-</div></div>
-
-<div id="games" class="window"><div class="titlebar"><b>🎮 KAIROX Games</b><button class="min" onclick="hideWin('games')">−</button><button class="close" onclick="hideWin('games')">×</button></div><div class="content">
-<div class="card"><h3>Neon Dodge</h3><p>Move your mouse over the glowing square and avoid the obstacle.</p><div class="game" id="game"><div class="player" id="player"></div><div class="block"></div></div></div>
-</div></div>
-
-<div id="settings" class="window"><div class="titlebar"><b>⚙️ Settings</b><button class="min" onclick="hideWin('settings')">−</button><button class="close" onclick="hideWin('settings')">×</button></div><div class="content">
-<h3>Appearance</h3><div class="settings-grid"><div class="theme" onclick="theme('purple')">🟣 Purple Neon</div><div class="theme" onclick="theme('cyan')">🔵 Cyan Night</div><div class="theme" onclick="theme('red')">🔴 Red Core</div></div>
-<h3>Mouse</h3>
-<div class="settings-grid">
-<div class="theme" onclick="setCursor('normal')">🖱️ Classic</div>
-<div class="theme" onclick="setCursor('neon')">✨ Neon</div>
-<div class="theme" onclick="setCursor('cross')">✚ Crosshair</div>
-<div class="theme" onclick="setCursor('pointer')">👆 Pointer</div>
+ <div class="appGrid">
+  <button class="appButton" onclick="openWin('games')">🎮 Games</button>
+  <button class="appButton" onclick="openWin('browser')">🌐 Browser</button>
+  <button class="appButton" onclick="openWin('settings')">⚙️ Settings</button>
+  <button class="appButton" onclick="openWin('about')">💠 About</button>
+ </div>
 </div>
-<h3>System</h3><div class="card">KAIROX OS Web Edition<br><small>Version 1.1 • Local demo</small></div>
-</div></div>
 
-<div id="taskbar"><button id="startBtn" class="task" onclick="toggleStart()">◈ KAIROX</button><button class="task" onclick="openWin('files')">📁</button><button class="task" onclick="openWin('browser')">🌐</button><button class="task" onclick="openWin('games')">🎮</button><button class="task" onclick="openWin('settings')">⚙️</button><div id="clock"></div></div>
+<!-- GAMES -->
+
+<div id="games" class="window">
+
+ <div class="titlebar">
+  <b>🎮 KAIROX Game Center</b>
+  <button class="winBtn" onclick="hideWin('games')">×</button>
+ </div>
+
+ <div class="content">
+
+  <input
+   id="gameSearch"
+   class="search"
+   placeholder="🔍 Search games..."
+   oninput="searchGames()"
+  >
+
+  <div class="stats">
+   <div class="stat">
+    <b id="played">0</b>
+    Games Played
+   </div>
+
+   <div class="stat">
+    <b id="favorites">0</b>
+    Favorites
+   </div>
+
+   <div class="stat">
+    <b id="bestScore">0</b>
+    Best Score
+   </div>
+  </div>
+
+  <br>
+
+  <div id="gameGrid" class="gameGrid">
+
+   <div class="gameCard" data-name="neon dodge">
+    <button class="favorite" data-game="Neon Dodge" onclick="favoriteGame(this)">☆</button>
+    <div class="gameIcon">⚡</div>
+    <h3>Neon Dodge</h3>
+    <p>Move around and avoid the glowing enemy.</p>
+    <button class="playBtn" onclick="startGame()">Play</button>
+   </div>
+
+   <div class="gameCard" data-name="click rush">
+    <button class="favorite" data-game="Click Rush" onclick="favoriteGame(this)">☆</button>
+    <div class="gameIcon">💥</div>
+    <h3>Click Rush</h3>
+    <p>Click the target as many times as possible.</p>
+    <button class="playBtn" onclick="clickRush()">Play</button>
+   </div>
+
+   <div class="gameCard" data-name="memory">
+    <button class="favorite" data-game="Memory" onclick="favoriteGame(this)">☆</button>
+    <div class="gameIcon">🧠</div>
+    <h3>Memory</h3>
+    <p>Test your memory with a quick challenge.</p>
+    <button class="playBtn" onclick="memoryGame()">Play</button>
+   </div>
+
+   <div class="gameCard" data-name="coming soon">
+    <div class="gameIcon">🚀</div>
+    <h3>More Games</h3>
+    <p>More Kairox games can be added here.</p>
+    <button class="playBtn" onclick="toast('More games coming soon!')">Coming Soon</button>
+   </div>
+
+  </div>
+
+ </div>
+</div>
+
+<!-- BROWSER -->
+
+<div id="browser" class="window">
+
+ <div class="titlebar">
+  <b>🌐 KAIROX Browser</b>
+  <button class="winBtn" onclick="hideWin('browser')">×</button>
+ </div>
+
+ <div class="content">
+
+  <input
+   id="url"
+   class="search"
+   placeholder="Enter a website address"
+  >
+
+  <button class="playBtn" onclick="browse()">Open Website</button>
+
+  <div class="card">
+   <h3>🌐 Browser</h3>
+   <p>
+    Kairox Browser opens websites normally in a new tab.
+   </p>
+  </div>
+
+ </div>
+</div>
+
+<!-- SETTINGS -->
+
+<div id="settings" class="window">
+
+ <div class="titlebar">
+  <b>⚙️ Settings</b>
+  <button class="winBtn" onclick="hideWin('settings')">×</button>
+ </div>
+
+ <div class="content">
+
+  <h3>🎨 Themes</h3>
+
+  <div class="themeGrid">
+
+   <div class="theme" onclick="theme('purple')">
+    🟣<br>Cyber Purple
+   </div>
+
+   <div class="theme" onclick="theme('cyan')">
+    🔵<br>Cyan Night
+   </div>
+
+   <div class="theme" onclick="theme('red')">
+    🔴<br>Red Core
+   </div>
+
+   <div class="theme" onclick="theme('green')">
+    🟢<br>Matrix
+   </div>
+
+  </div>
+
+  <h3>🔊 Sound</h3>
+
+  <div class="toggle">
+   <span>Interface sounds</span>
+   <button id="soundToggle" onclick="toggleSound()">ON</button>
+  </div>
+
+  <h3>🌌 Wallpaper</h3>
+
+  <div class="toggle">
+   <span>Animated wallpaper</span>
+   <button id="wallToggle" class="on" onclick="toggleWallpaper()">ON</button>
+  </div>
+
+  <h3>💾 Storage</h3>
+
+  <button class="playBtn" onclick="clearData()">
+   Reset Kairox settings
+  </button>
+
+ </div>
+</div>
+
+<!-- ABOUT -->
+
+<div id="about" class="window">
+
+ <div class="titlebar">
+  <b>💠 About Kairox OS</b>
+  <button class="winBtn" onclick="hideWin('about')">×</button>
+ </div>
+
+ <div class="content">
+
+  <div class="card">
+   <h1>◈ KAIROX OS</h1>
+   <p>Player Edition</p>
+   <p>Version 2.0</p>
+  </div>
+
+  <div class="card">
+   <h3>Built for players.</h3>
+   <p>
+    A futuristic browser-based desktop with games,
+    themes, settings, animations and local saves.
+   </p>
+  </div>
+
+ </div>
+</div>
+
+<!-- TASKBAR -->
+
+<div id="taskbar">
+
+ <button id="startBtn" class="task" onclick="toggleStart()">
+  ◈ KAIROX
+ </button>
+
+ <button class="task" onclick="openWin('games')">🎮</button>
+ <button class="task" onclick="openWin('browser')">🌐</button>
+ <button class="task" onclick="openWin('settings')">⚙️</button>
+
+ <div id="clock"></div>
+
+</div>
+
 <div id="toast"></div>
+
 </div>
 
 <script>
-setTimeout(()=>document.getElementById('boot').style.display='none',2500);
-const wins=['files','browser','games','settings'];
-function openWin(id){document.getElementById('startmenu').style.display='none';document.getElementById(id).style.display='block';bring(id)}
-function hideWin(id){document.getElementById(id).style.display='none'}
-function bring(id){document.getElementById(id).style.zIndex=15}
-function toggleStart(){let m=document.getElementById('startmenu');m.style.display=m.style.display==='block'?'none':'block'}
-function browse(){let v=document.getElementById('url').value.trim();if(!v)return;let u=/^https?:\/\//i.test(v)?v:'https://'+v;window.open(u,'_blank');toast('Opened in a new tab')}
-function toast(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}
-function setCursor(type){
-document.body.classList.remove('cursor-neon','cursor-cross','cursor-pointer');
-if(type!=='normal') document.body.classList.add('cursor-'+type);
-localStorage.setItem('kairoxCursor',type); toast('Mouse cursor changed');
+
+let soundEnabled =
+ localStorage.getItem("kairoxSound") !== "off";
+
+let wallpaperEnabled =
+ localStorage.getItem("kairoxWallpaper") !== "off";
+
+let played =
+ Number(localStorage.getItem("kairoxPlayed") || 0);
+
+let bestScore =
+ Number(localStorage.getItem("kairoxBest") || 0);
+
+let favorites =
+ JSON.parse(localStorage.getItem("kairoxFavorites") || "[]");
+
+document.getElementById("played").textContent=played;
+document.getElementById("bestScore").textContent=bestScore;
+document.getElementById("favorites").textContent=favorites.length;
+
+setTimeout(()=>{
+ document.getElementById("boot").style.display="none";
+},2800);
+
+function openWin(id){
+
+ document.getElementById("startmenu").style.display="none";
+
+ const w=document.getElementById(id);
+
+ if(w){
+  w.style.display="block";
+  w.style.zIndex=50;
+ }
+
 }
-const savedCursor=localStorage.getItem('kairoxCursor');
-if(savedCursor) setCursor(savedCursor);
-function theme(t){let d=document.getElementById('desktop');if(t==='purple')d.style.background='radial-gradient(circle at 20% 20%,#31205b,#090a12 55%)';if(t==='cyan')d.style.background='radial-gradient(circle at 70% 20%,#064e5d,#070b12 55%)';if(t==='red')d.style.background='radial-gradient(circle at 70% 20%,#551b30,#0d080b 55%)';toast('Theme changed')}
-setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})},1000);
-const game=document.getElementById('game'),player=document.getElementById('player');
-game.addEventListener('mousemove',e=>{let r=game.getBoundingClientRect();player.style.left=Math.max(0,Math.min(r.width-24,e.clientX-r.left-12))+'px';player.style.top=Math.max(0,Math.min(r.height-24,e.clientY-r.top-12))+'px';});
+
+function hideWin(id){
+ document.getElementById(id).style.display="none";
+}
+
+function toggleStart(){
+
+ const menu=document.getElementById("startmenu");
+
+ menu.style.display =
+ menu.style.display==="block"
+ ?"none"
+ :"block";
+
+}
+
+function toast(message){
+
+ const t=document.getElementById("toast");
+
+ t.textContent=message;
+ t.style.display="block";
+
+ setTimeout(()=>{
+  t.style.display="none";
+ },1800);
+
+}
+
+function beep(){
+
+ if(!soundEnabled)return;
+
+ try{
+
+  const audio=
+   new AudioContext();
+
+  const osc=
+   audio.createOscillator();
+
+  const gain=
+   audio.createGain();
+
+  osc.frequency.value=600;
+  gain.gain.value=.04;
+
+  osc.connect(gain);
+  gain.connect(audio.destination);
+
+  osc.start();
+
+  osc.stop(audio.currentTime+.08);
+
+ }catch(e){}
+
+}
+
+function browse(){
+
+ let url=
+ document.getElementById("url").value.trim();
+
+ if(!url)return;
+
+ if(!/^https?:\/\//i.test(url))
+  url="https://"+url;
+
+ window.open(url,"_blank");
+
+ toast("Opened website");
+ beep();
+
+}
+
+function searchGames(){
+
+ const query=
+ document.getElementById("gameSearch")
+ .value
+ .toLowerCase();
+
+ document
+ .querySelectorAll(".gameCard")
+ .forEach(card=>{
+
+  const name=
+   card.dataset.name;
+
+  card.style.display=
+   name.includes(query)
+   ?"block"
+   :"none";
+
+ });
+
+}
+
+function favoriteGame(button){
+
+ const game=
+ button.dataset.game;
+
+ if(favorites.includes(game)){
+
+  favorites=
+   favorites.filter(x=>x!==game);
+
+  button.textContent="☆";
+
+ }else{
+
+  favorites.push(game);
+
+  button.textContent="★";
+
+ }
+
+ localStorage.setItem(
+  "kairoxFavorites",
+  JSON.stringify(favorites)
+ );
+
+ document.getElementById("favorites")
+ .textContent=favorites.length;
+
+ beep();
+
+}
+
+document
+ .querySelectorAll(".favorite")
+ .forEach(button=>{
+
+  if(favorites.includes(button.dataset.game))
+   button.textContent="★";
+
+ });
+
+function recordGame(){
+
+ played++;
+
+ localStorage.setItem(
+  "kairoxPlayed",
+  played
+ );
+
+ document.getElementById("played")
+ .textContent=played;
+
+}
+
+function startGame(){
+
+ recordGame();
+
+ openWin("games");
+
+ const content=
+ document.querySelector("#games .content");
+
+ content.innerHTML=`
+
+ <h2>⚡ Neon Dodge</h2>
+
+ <div id="score">Score: 0</div>
+
+ <div id="gameArea">
+
+  <div class="player" id="player"></div>
+  <div class="enemy" id="enemy"></div>
+
+ </div>
+
+ <br>
+
+ <button class="playBtn" onclick="stopGame()">
+  Exit Game
+ </button>
+ `;
+
+ const area=
+ document.getElementById("gameArea");
+
+ const player=
+ document.getElementById("player");
+
+ const enemy=
+ document.getElementById("enemy");
+
+ let score=0;
+ let running=true;
+
+ function moveEnemy(){
+
+  if(!running)return;
+
+  enemy.style.left=
+   Math.random()*
+   (area.clientWidth-30)+"px";
+
+  enemy.style.top=
+   Math.random()*
+   (area.clientHeight-30)+"px";
+
+ }
+
+ moveEnemy();
+
+ area.addEventListener("mousemove",e=>{
+
+  if(!running)return;
+
+  const r=
+   area.getBoundingClientRect();
+
+  player.style.left=
+   Math.max(0,
+   Math.min(
+    area.clientWidth-26,
+    e.clientX-r.left-13
+   ))+"px";
+
+  player.style.top=
+   Math.max(0,
+   Math.min(
+    area.clientHeight-26,
+    e.clientY-r.top-13
+   ))+"px";
+
+ });
+
+ area.addEventListener("touchmove",e=>{
+
+  if(!running)return;
+
+  const touch=e.touches[0];
+  const r=area.getBoundingClientRect();
+
+  player.style.left=
+   Math.max(0,
+   Math.min(
+    area.clientWidth-26,
+    touch.clientX-r.left-13
+   ))+"px";
+
+  player.style.top=
+   Math.max(0,
+   Math.min(
+    area.clientHeight-26,
+    touch.clientY-r.top-13
+   ))+"px";
+
+ },{passive:true});
+
+ const timer=setInterval(()=>{
+
+  if(!running){
+   clearInterval(timer);
+   return;
+  }
+
+  score++;
+
+  document.getElementById("score")
+   .textContent="Score: "+score;
+
+  moveEnemy();
+
+  const p=
+   player.getBoundingClientRect();
+
+  const e=
+   enemy.getBoundingClientRect();
+
+  if(
+   p.left<e.right &&
+   p.right>e.left &&
+   p.top<e.bottom &&
+   p.bottom>e.top
+  ){
+
+   running=false;
+
+   if(score>bestScore){
+
+    bestScore=score;
+
+    localStorage.setItem(
+     "kairoxBest",
+     bestScore
+    );
+
+    document.getElementById("bestScore")
+     .textContent=bestScore;
+
+   }
+
+   toast("Game Over! Score: "+score);
+
+  }
+
+ },500);
+
+ window.currentGame=()=>{
+
+  running=false;
+  clearInterval(timer);
+
+ };
+
+ beep();
+
+}
+
+function stopGame(){
+
+ if(window.currentGame)
+  window.currentGame();
+
+ location.reload();
+
+}
+
+function clickRush(){
+
+ recordGame();
+
+ let score=0;
+
+ const content=
+ document.querySelector("#games .content");
+
+ content.innerHTML=`
+
+ <h2>💥 Click Rush</h2>
+
+ <div class="card">
+  <h1 id="clickScore">0</h1>
+  <p>Click as fast as you can!</p>
+
+  <button
+   class="playBtn"
+   id="clickTarget"
+   style="font-size:30px;width:100%;padding:30px">
+   CLICK!
+  </button>
+ </div>
+
+ <button class="playBtn" onclick="location.reload()">
+  Exit
+ </button>
+ `;
+
+ let target=
+ document.getElementById("clickTarget");
+
+ target.onclick=()=>{
+
+  score++;
+
+  document.getElementById("clickScore")
+   .textContent=score;
+
+  beep();
+
+ };
+
+}
+
+function memoryGame(){
+
+ recordGame();
+
+ const symbols=
+ ["🌟","🔥","💎","⚡"];
+
+ const shuffled=
+ [...symbols,...symbols]
+ .sort(()=>Math.random()-.5);
+
+ const content=
+ document.querySelector("#games .content");
+
+ content.innerHTML=`
+
+ <h2>🧠 Memory</h2>
+
+ <div id="memoryBoard"
+ style="
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px">
+ </div>
+
+ <br>
+
+ <button class="playBtn"
+ onclick="location.reload()">
+ Exit
+ </button>
+ `;
+
+ const board=
+ document.getElementById("memoryBoard");
+
+ let first=null;
+ let locked=false;
+ let matches=0;
+
+ shuffled.forEach(symbol=>{
+
+  const card=
+   document.createElement("button");
+
+  card.textContent="❓";
+
+  card.style.cssText=`
+   height:70px;
+   border:0;
+   border-radius:10px;
+   background:#ffffff10;
+   color:white;
+   font-size:25px;
+   cursor:pointer;
+  `;
+
+  card.onclick=()=>{
+
+   if(locked || card===first)return;
+
+   card.textContent=symbol;
+
+   if(!first){
+
+    first=card;
+
+   }else{
+
+    if(first.textContent===card.textContent){
+
+     matches++;
+     first=null;
+
+     if(matches===symbols.length)
+      toast("You won! 🎉");
+
+    }else{
+
+     locked=true;
+
+     setTimeout(()=>{
+
+      first.textContent="❓";
+      card.textContent="❓";
+
+      first=null;
+      locked=false;
+
+     },700);
+
+    }
+
+   }
+
+ };
+
+ board.appendChild(card);
+
+ });
+
+}
+
+function theme(type){
+
+ let bg="";
+
+ if(type==="purple")
+  bg=
+  "radial-gradient(circle at 15% 20%,#5b21b6,#090719 55%),linear-gradient(135deg,#03040a,#090719)";
+
+ if(type==="cyan")
+  bg=
+  "radial-gradient(circle at 80% 20%,#075985,#03131b 55%),linear-gradient(135deg,#02040a,#03131b)";
+
+ if(type==="red")
+  bg=
+  "radial-gradient(circle at 80% 20%,#991b1b,#160509 55%),linear-gradient(135deg,#050204,#160509)";
+
+ if(type==="green")
+  bg=
+  "radial-gradient(circle at 50% 20%,#166534,#020c05 55%),linear-gradient(135deg,#010502,#021006)";
+
+ document.getElementById("desktop")
+ .style.background=bg;
+
+ localStorage.setItem(
+  "kairoxTheme",
+  type
+ );
+
+ toast("Theme changed");
+ beep();
+
+}
+
+function toggleSound(){
+
+ soundEnabled=!soundEnabled;
+
+ localStorage.setItem(
+  "kairoxSound",
+  soundEnabled?"on":"off"
+ );
+
+ const button=
+ document.getElementById("soundToggle");
+
+ button.textContent=
+ soundEnabled?"ON":"OFF";
+
+ button.classList.toggle(
+  "on",
+  soundEnabled
+ );
+
+ toast(
+  soundEnabled
+  ?"Sound enabled"
+  :"Sound disabled"
+ );
+
+}
+
+function toggleWallpaper(){
+
+ wallpaperEnabled=!wallpaperEnabled;
+
+ localStorage.setItem(
+  "kairoxWallpaper",
+  wallpaperEnabled?"on":"off"
+ );
+
+ document
+ .querySelector(".stars")
+ .style.display=
+ wallpaperEnabled
+ ?"block"
+ :"none";
+
+ const button=
+ document.getElementById("wallToggle");
+
+ button.textContent=
+ wallpaperEnabled?"ON":"OFF";
+
+ button.classList.toggle(
+  "on",
+  wallpaperEnabled
+ );
+
+}
+
+function clearData(){
+
+ localStorage.clear();
+
+ toast("Settings reset");
+
+ setTimeout(()=>{
+  location.reload();
+ },800);
+
+}
+
+let savedTheme=
+ localStorage.getItem("kairoxTheme");
+
+if(savedTheme)
+ theme(savedTheme);
+
+if(!wallpaperEnabled)
+ document.querySelector(".stars").style.display="none";
+
+setInterval(()=>{
+
+ document.getElementById("clock")
+ .innerHTML=
+ new Date().toLocaleTimeString([],{
+  hour:"2-digit",
+  minute:"2-digit"
+ });
+
+},1000);
+
 </script>
+
 </body>
 </html>
