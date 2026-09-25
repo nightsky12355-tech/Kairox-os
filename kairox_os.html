@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KAIROX OS</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;overflow:hidden;background:#080910;color:#fff}
+body{background:radial-gradient(circle at 20% 20%,#25204a 0,#0d0d18 35%,#05060a 100%)}
+#boot{position:fixed;inset:0;background:#05060a;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:100;color:#fff}
+.logo{font-size:clamp(42px,9vw,100px);font-weight:900;letter-spacing:8px;text-shadow:0 0 25px #8b5cf6,0 0 55px #38bdf8}
+.bootbar{width:min(420px,70vw);height:5px;background:#222;border-radius:9px;margin-top:28px;overflow:hidden}
+.bootbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#22d3ee);animation:load 2.2s forwards}
+@keyframes load{to{width:100%}}
+#desktop{height:100%;position:relative;overflow:hidden;background:
+radial-gradient(circle at 15% 20%,rgba(168,85,247,.34),transparent 25%),
+radial-gradient(circle at 82% 18%,rgba(34,211,238,.28),transparent 24%),
+radial-gradient(circle at 55% 88%,rgba(236,72,153,.20),transparent 28%),
+linear-gradient(135deg,#03040a 0%,#090719 42%,#03131b 100%)}
+.cursor-neon,.cursor-neon *{cursor:crosshair!important}
+.cursor-cross,.cursor-cross *{cursor:crosshair!important}
+.cursor-pointer,.cursor-pointer *{cursor:pointer!important}
+.cursor-neon{cursor:crosshair!important}
+#desktop:before{content:"";position:absolute;inset:-30%;background:
+conic-gradient(from 20deg,transparent 0 18%,rgba(124,58,237,.13) 24%,transparent 31% 48%,rgba(34,211,238,.10) 55%,transparent 64% 100%);
+filter:blur(28px);animation:aurora 12s ease-in-out infinite alternate;pointer-events:none}
+#desktop:after{content:"";position:absolute;inset:0;background-image:
+radial-gradient(circle,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
+radial-gradient(circle,rgba(34,211,238,.45) 0 1px,transparent 1.5px);
+background-size:97px 113px,157px 149px;background-position:20px 10px,70px 45px;opacity:.22;pointer-events:none}
+@keyframes aurora{from{transform:rotate(-8deg) scale(1)}to{transform:rotate(8deg) scale(1.08)}}
+#icons,#taskbar,#startmenu,.window{z-index:10}
+.wallpaper{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:35px 35px}
+#icons{position:absolute;top:20px;left:18px;display:grid;gap:18px}
+.icon{width:76px;text-align:center;cursor:pointer;padding:7px;border-radius:12px}.icon:hover{background:#ffffff14}.icon span{display:block;font-size:30px;margin-bottom:5px}.icon small{font-size:12px}
+#taskbar{position:absolute;bottom:0;left:0;right:0;height:58px;background:rgba(10,10,18,.8);backdrop-filter:blur(16px);border-top:1px solid #ffffff18;display:flex;align-items:center;padding:7px 12px;gap:8px;z-index:20}
+.task{border:0;background:#ffffff0d;color:white;border-radius:10px;padding:9px 12px;cursor:pointer}.task:hover{background:#ffffff18}
+#startBtn{font-weight:bold;background:linear-gradient(135deg,#7c3aed,#0891b2)}
+#clock{margin-left:auto;font-size:13px;color:#cbd5e1}
+.window{position:absolute;left:15%;top:12%;width:min(700px,72vw);height:min(500px,65vh);background:rgba(12,13,23,.94);border:1px solid #ffffff22;border-radius:14px;box-shadow:0 25px 80px #000b;backdrop-filter:blur(20px);overflow:hidden;z-index:10;display:none}
+.titlebar{height:42px;display:flex;align-items:center;padding:0 12px;background:#ffffff0b;border-bottom:1px solid #ffffff14;cursor:move}
+.titlebar b{flex:1}.close,.min{border:0;color:#fff;background:transparent;font-size:18px;cursor:pointer;width:30px}
+.content{height:calc(100% - 42px);padding:18px;overflow:auto}
+.card{background:#ffffff08;border:1px solid #ffffff12;border-radius:12px;padding:14px;margin-bottom:12px}
+button,input,select{font:inherit}input,select{background:#090a11;color:#fff;border:1px solid #ffffff22;border-radius:8px;padding:9px}
+.startmenu{position:absolute;bottom:66px;left:12px;width:320px;background:rgba(12,13,23,.96);border:1px solid #ffffff1c;border-radius:16px;padding:16px;box-shadow:0 20px 70px #000c;display:none;z-index:30}
+.startmenu h2{margin:0 0 12px}.apps{display:grid;grid-template-columns:1fr 1fr;gap:8px}.apps button{padding:13px;border:1px solid #ffffff12;background:#ffffff09;color:white;border-radius:10px;text-align:left;cursor:pointer}.apps button:hover{background:#ffffff18}
+.file{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px}.file:hover{background:#ffffff09}
+.game{height:270px;border:1px solid #ffffff15;border-radius:12px;background:#05060a;position:relative;overflow:hidden}.player{position:absolute;width:24px;height:24px;background:#22d3ee;box-shadow:0 0 18px #22d3ee;border-radius:5px;left:30px;bottom:30px}.block{position:absolute;width:28px;height:28px;background:#a855f7;bottom:30px;right:40px;animation:move 2s linear infinite}@keyframes move{from{right:40px}to{right:90%}}
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.theme{padding:20px;border-radius:12px;background:#ffffff08;border:1px solid #ffffff12;cursor:pointer}
+#toast{position:fixed;right:18px;bottom:75px;background:#121421;padding:12px 16px;border:1px solid #ffffff18;border-radius:10px;display:none;z-index:50}
+</style>
+</head>
+<body>
+<div id="boot"><div class="logo">KAIROX OS</div><div>Initializing system...</div><div class="bootbar"><i></i></div></div>
+
+<div id="desktop">
+<div class="wallpaper"></div>
+<div id="icons">
+  <div class="icon" onclick="openWin('files')"><span>📁</span><small>Files</small></div>
+  <div class="icon" onclick="openWin('browser')"><span>🌐</span><small>Browser</small></div>
+  <div class="icon" onclick="openWin('games')"><span>🎮</span><small>Games</small></div>
+  <div class="icon" onclick="openWin('settings')"><span>⚙️</span><small>Settings</small></div>
+</div>
+
+<div id="startmenu" class="startmenu">
+<h2>◈ KAIROX</h2><div style="color:#94a3b8;font-size:13px;margin-bottom:14px">Welcome to your desktop</div>
+<div class="apps">
+<button onclick="openWin('files')">📁 File Manager</button><button onclick="openWin('browser')">🌐 Browser</button>
+<button onclick="openWin('games')">🎮 Games</button><button onclick="openWin('settings')">⚙️ Settings</button>
+</div></div>
+
+<div id="files" class="window"><div class="titlebar"><b>📁 File Manager</b><button class="min" onclick="hideWin('files')">−</button><button class="close" onclick="hideWin('files')">×</button></div><div class="content">
+<div class="card">📂 <b>Documents</b><br><small>Personal files</small></div><div class="card">🖼️ <b>Pictures</b><br><small>Images and wallpapers</small></div><div class="card">🎵 <b>Music</b><br><small>Audio files</small></div><div class="card">📦 <b>Downloads</b><br><small>Downloaded files</small></div>
+</div></div>
+
+<div id="browser" class="window"><div class="titlebar"><b>🌐 KAIROX Browser</b><button class="min" onclick="hideWin('browser')">−</button><button class="close" onclick="hideWin('browser')">×</button></div><div class="content">
+<div style="display:flex;gap:8px"><input id="url" style="flex:1" placeholder="Enter a permitted website address"><button class="task" onclick="browse()">Go</button></div>
+<div class="card" style="margin-top:16px"><h3>Browser</h3><p style="color:#94a3b8">This demo browser opens permitted websites in a new tab. It does not bypass school or network restrictions.</p></div>
+</div></div>
+
+<div id="games" class="window"><div class="titlebar"><b>🎮 KAIROX Games</b><button class="min" onclick="hideWin('games')">−</button><button class="close" onclick="hideWin('games')">×</button></div><div class="content">
+<div class="card"><h3>Neon Dodge</h3><p>Move your mouse over the glowing square and avoid the obstacle.</p><div class="game" id="game"><div class="player" id="player"></div><div class="block"></div></div></div>
+</div></div>
+
+<div id="settings" class="window"><div class="titlebar"><b>⚙️ Settings</b><button class="min" onclick="hideWin('settings')">−</button><button class="close" onclick="hideWin('settings')">×</button></div><div class="content">
+<h3>Appearance</h3><div class="settings-grid"><div class="theme" onclick="theme('purple')">🟣 Purple Neon</div><div class="theme" onclick="theme('cyan')">🔵 Cyan Night</div><div class="theme" onclick="theme('red')">🔴 Red Core</div></div>
+<h3>Mouse</h3>
+<div class="settings-grid">
+<div class="theme" onclick="setCursor('normal')">🖱️ Classic</div>
+<div class="theme" onclick="setCursor('neon')">✨ Neon</div>
+<div class="theme" onclick="setCursor('cross')">✚ Crosshair</div>
+<div class="theme" onclick="setCursor('pointer')">👆 Pointer</div>
+</div>
+<h3>System</h3><div class="card">KAIROX OS Web Edition<br><small>Version 1.1 • Local demo</small></div>
+</div></div>
+
+<div id="taskbar"><button id="startBtn" class="task" onclick="toggleStart()">◈ KAIROX</button><button class="task" onclick="openWin('files')">📁</button><button class="task" onclick="openWin('browser')">🌐</button><button class="task" onclick="openWin('games')">🎮</button><button class="task" onclick="openWin('settings')">⚙️</button><div id="clock"></div></div>
+<div id="toast"></div>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById('boot').style.display='none',2500);
+const wins=['files','browser','games','settings'];
+function openWin(id){document.getElementById('startmenu').style.display='none';document.getElementById(id).style.display='block';bring(id)}
+function hideWin(id){document.getElementById(id).style.display='none'}
+function bring(id){document.getElementById(id).style.zIndex=15}
+function toggleStart(){let m=document.getElementById('startmenu');m.style.display=m.style.display==='block'?'none':'block'}
+function browse(){let v=document.getElementById('url').value.trim();if(!v)return;let u=/^https?:\/\//i.test(v)?v:'https://'+v;window.open(u,'_blank');toast('Opened in a new tab')}
+function toast(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}
+function setCursor(type){
+document.body.classList.remove('cursor-neon','cursor-cross','cursor-pointer');
+if(type!=='normal') document.body.classList.add('cursor-'+type);
+localStorage.setItem('kairoxCursor',type); toast('Mouse cursor changed');
+}
+const savedCursor=localStorage.getItem('kairoxCursor');
+if(savedCursor) setCursor(savedCursor);
+function theme(t){let d=document.getElementById('desktop');if(t==='purple')d.style.background='radial-gradient(circle at 20% 20%,#31205b,#090a12 55%)';if(t==='cyan')d.style.background='radial-gradient(circle at 70% 20%,#064e5d,#070b12 55%)';if(t==='red')d.style.background='radial-gradient(circle at 70% 20%,#551b30,#0d080b 55%)';toast('Theme changed')}
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})},1000);
+const game=document.getElementById('game'),player=document.getElementById('player');
+game.addEventListener('mousemove',e=>{let r=game.getBoundingClientRect();player.style.left=Math.max(0,Math.min(r.width-24,e.clientX-r.left-12))+'px';player.style.top=Math.max(0,Math.min(r.height-24,e.clientY-r.top-12))+'px';});
+</script>
+</body>
+</html>
